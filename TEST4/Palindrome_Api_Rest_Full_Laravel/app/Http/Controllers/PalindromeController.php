@@ -16,7 +16,17 @@ class PalindromeController extends Controller
             $validator = Validator::make($request->all(), [
                 'palindrome' => 'required|string',
             ]);
-
+            if ($validator->fails()) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => $validator->errors()->first(),
+                        'error' => $validator->errors(),
+                        'status' => 406,
+                    ],
+                    406
+                );
+            }
             $field = $request->all();
 
             // Convert the input string to lowercase and remove non-alphanumeric characters
@@ -37,17 +47,7 @@ class PalindromeController extends Controller
                 200
             );
 
-            if ($validator->fails()) {
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => $validator->errors()->first(),
-                        'error' => $validator->errors(),
-                        'status' => 406,
-                    ],
-                    406
-                );
-            }
+          
 
         } catch (Exception $error) {
             return Response()->json(
