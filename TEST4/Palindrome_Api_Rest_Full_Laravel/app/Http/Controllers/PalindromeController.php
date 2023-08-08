@@ -29,8 +29,11 @@ class PalindromeController extends Controller
             }
             $field = $request->all();
 
+             // Remove accents from the input string
+            $input = iconv("utf-8", "ascii//TRANSLIT", $field['palindrome']);
+
             // Convert the input string to lowercase and remove non-alphanumeric characters
-            $input = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $field['palindrome']));
+            $input = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $input));
 
             // Reverse the input string
             $reversed = strrev($input);
